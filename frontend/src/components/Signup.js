@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css';
 
 function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -18,7 +18,9 @@ function Signup() {
 
     const newUser = { email, password };
     console.log('Signup successful!', newUser);
-    history.push('/');
+
+    // Redirect to login page after successful signup
+    navigate('/login');
   };
 
   return (
@@ -53,7 +55,7 @@ function Signup() {
         </div>
         <button type="submit">Sign Up</button>
         <p className="login-link">
-          Already have an account? <Link to="/">Log in</Link>
+          Already have an account? <Link to="/login">Log in</Link>
         </p>
       </form>
     </div>
