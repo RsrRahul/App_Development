@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Home.css'; // Import your custom CSS file
 
 const companies = [
   { name: 'Google', id: 'google' },
@@ -28,8 +29,8 @@ const Home = () => {
   );
 
   return (
-    <div className="container text-center mt-5">
-      <h1>Welcome to the Job Portal</h1>
+    <div className="home-container container text-center mt-5">
+      <h1 className="mb-4">Welcome to the Job Portal</h1>
       <div className="row mb-4">
         <div className="col-12 col-md-8 offset-md-2">
           <div className="input-group">
@@ -46,11 +47,14 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="row mt-4">
+      <div className="company-buttons row mt-4">
         {filteredCompanies.length > 0 ? (
           filteredCompanies.map((company) => (
             <div className="col-12 col-md-6 col-lg-4 mb-3" key={company.id}>
-              <button className="btn btn-primary w-100" onClick={() => handleNavigate(company.id)}>
+              <button
+                className="btn btn-company w-100"
+                onClick={() => handleNavigate(company.id)}
+              >
                 {company.name}
               </button>
             </div>

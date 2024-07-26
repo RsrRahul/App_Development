@@ -1,29 +1,34 @@
-// src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
-import Signup from './components/Signup';
 import CompanyDetails from './components/CompanyDetails';
-import './App.css';
+import Dashboard from './components/Dashboard';
 import Navbar from './components/Navbar';
+import Applications from './components/Applications';
+import Notifications from './components/Notifications';
+import Profile from './components/Profile';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import InternshipPage from './components/InternshipPage';
+import ApplyForm from './components/ApplyForm';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <main>
-        <Navbar />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/company/:id" element={<CompanyDetails />} />
-          </Routes>
-        </main>
-       
-      </div>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/company/:id" element={<CompanyDetails />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/applications" element={<Applications />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/internship" element={<InternshipPage />} />
+        <Route path="/apply/:company" element={<ApplyForm />} />
+      </Routes>
     </Router>
   );
 }

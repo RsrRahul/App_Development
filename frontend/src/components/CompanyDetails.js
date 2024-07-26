@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -89,9 +89,31 @@ const CompanyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const company = companyData[id];
+  const [showForm, setShowForm] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    qualification: '',
+    skills: '',
+    experience: '',
+  });
 
   const handleApply = () => {
-    alert(`Applied for jobs at ${company.name}`);
+    setShowForm(true);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormSubmitted(true);
   };
 
   return (
@@ -104,8 +126,80 @@ const CompanyDetails = () => {
           <p className="card-text"><strong>Salary Package:</strong> {company.salary}</p>
           <p className="card-text"><strong>Requirements:</strong> {company.requirements}</p>
           <p className="card-text"><strong>Skills:</strong> {company.skills.join(', ')}</p>
-          <button className="btn btn-success" onClick={handleApply}>Apply for Job</button>
-          <button className="btn btn-secondary ms-2" onClick={() => navigate('/')}>Back to Home</button>
+          {!showForm && !formSubmitted && (
+            <button className="btn btn-success btn-lg" onClick={handleApply}>Apply for Job</button>
+          )}
+          {showForm && !formSubmitted && (
+            <form onSubmit={handleSubmit} className="mt-4">
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="qualification" className="form-label">Qualification</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="qualification"
+                  name="qualification"
+                  value={formData.qualification}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="skills" className="form-label">Skills</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="skills"
+                  name="skills"
+                  value={formData.skills}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="experience" className="form-label">Experience</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="experience"
+                  name="experience"
+                  value={formData.experience}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <button type="submit" className="btn btn-success btn-lg">Submit Application</button>
+            </form>
+          )}
+          {formSubmitted && (
+            <div className="alert alert-success mt-4" role="alert">
+              Successfully applied for the job!
+            </div>
+          )}
+          <button className="btn btn-secondary btn-lg mt-2" onClick={() => navigate('/')}>Back to Home</button>
         </div>
       </div>
     </div>
