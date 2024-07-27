@@ -1,0 +1,18 @@
+/* Profile form styling */
+.profile-form {
+    max-width: 600px;
+    margin: auto;
+}
+
+/* File input styling */
+.form-control-file {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Profile picture preview */
+.img-thumbnail {
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+}

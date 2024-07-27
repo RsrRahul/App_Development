@@ -4,6 +4,7 @@
     "@emotion/style": "^0.8.0",
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.5",
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "react-bootstrap": "^2.10.4"
   }
 }

@@ -9,6 +9,11 @@ function Login({ user }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(user => user.email === email && user.password === password);
+
+
+
     if (!user) {
       alert('No user found. Please sign up first.');
       return;
