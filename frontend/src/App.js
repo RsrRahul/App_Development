@@ -6,12 +6,14 @@ import Navbar from './components/Navbar';
 import Profile from './components/Profile';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import InternshipPage from './components/InternshipPage';
+import JobPage from './components/JobPage';
 import ApplyForm from './components/ApplyForm';
-import Footer from './components/Footer';
+import AboutUs from './components/AboutUs';
+
 
 function App() {
   return (
+  
     <Router>
       <Navbar />
       <div className="content">
@@ -22,12 +24,16 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/company/:id" element={<CompanyDetails />} />
-          <Route path="/internship" element={<InternshipPage />} />
+          <Route path="/jobs" element={<JobPage />} />
           <Route path="/apply/:company" element={<ApplyForm />} />
+          <Route path="/aboutus" element={<AboutUs />} />
           </Routes>
           </div>
-          <Footer />
+        
+          
     </Router>
+    
+    
   );
 }
 

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Home.css'; 
+import './Home.css';
+import Footer from './Footer';
 
 const companies = [
   { name: 'Google', id: 'google', imageUrl: 'https://cdn2.hubspot.net/hubfs/53/image8-2.jpg' },
@@ -15,8 +16,7 @@ const companies = [
   { name: 'TCS', id: 'tcs', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Tata_Consultancy_Services_Logo.svg/2560px-Tata_Consultancy_Services_Logo.svg.png' },
   { name: 'L&T', id: 'lnt', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/40/L%26T_Infotech_logo.jpg' },
   { name: 'Deloitte', id: 'deloitte', imageUrl: 'https://assets.channelinsider.com/uploads/2022/03/CI.Profile.Deloitte-1024x1024.jpg' },
-  { name: 'Cognizant', id: 'cognizant', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDWjsmLKusWQ4fA90gn3Fc4CyTRqqQflyC0w&s'},
-  
+  { name: 'Cognizant', id: 'cognizant', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDWjsmLKusWQ4fA90gn3Fc4CyTRqqQflyC0w&s' },
 ];
 
 const Home = () => {
@@ -34,6 +34,7 @@ const Home = () => {
   return (
     <div className="home-container container text-center mt-5">
       <h1 className="mb-4">Welcome to the Job Portal</h1>
+
       <div className="row mb-4">
         <div className="col-12 col-md-8 offset-md-2">
           <div className="input-group">
@@ -50,6 +51,14 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {/* Static Image Section */}
+      <div className="row mb-5">
+        <div className="col-12">
+          <img src="https://img.freepik.com/free-vector/online-job-interview_23-2148644500.jpg?w=996&t=st=1722144751~exp=1722145351~hmac=bc7d9e5a3f504101b0b793dfdb3a450d7f22c2492a0e78a75ebe4815af507297" className="img-fluid" alt="Job Portal Welcome" />
+        </div>
+      </div>
+
       <div className="company-buttons row mt-4">
         {filteredCompanies.length > 0 ? (
           filteredCompanies.map((company) => (
@@ -67,6 +76,45 @@ const Home = () => {
           <p>No companies found</p>
         )}
       </div>
+
+      {/* Job Statistics Section */}
+      <div className="row mt-5">
+        <div className="col-md-6 mb-4">
+          <div className="card stats-card">
+            <div className="card-body">
+              <h5 className="card-title">Total Jobs</h5>
+              <p className="card-text">1200+</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6 mb-4">
+          <div className="card stats-card">
+            <div className="card-body">
+              <h5 className="card-title">Companies</h5>
+              <p className="card-text">100+</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6 mb-4">
+          <div className="card stats-card">
+            <div className="card-body">
+              <h5 className="card-title">Active Users</h5>
+              <p className="card-text">5000+</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6 mb-4">
+          <div className="card stats-card">
+            <div className="card-body">
+              <h5 className="card-title">Jobs Filled</h5>
+              <p className="card-text">800+</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Section */}
+      <Footer />
     </div>
   );
 };

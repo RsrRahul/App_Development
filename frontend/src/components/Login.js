@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
 
-function Login({ user }) {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -11,8 +11,6 @@ function Login({ user }) {
 
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const user = users.find(user => user.email === email && user.password === password);
-
-
 
     if (!user) {
       alert('No user found. Please sign up first.');
@@ -47,7 +45,9 @@ function Login({ user }) {
             required
           />
         </div>
+        <Link to="/jobs">
         <button type="submit">Login</button>
+        </Link>
         <p className="signup-link">
           Don't have an account? <Link to="/signup">Sign up</Link>
         </p>

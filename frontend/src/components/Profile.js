@@ -1,196 +1,271 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './Profile.css';
 
 function Profile() {
-    const [profile, setProfile] = useState({
-        name: "",
-        email: "",
-        skills: [],
-        bio: "",
-        qualification: "",
-        resume: null,
-        profilePicture: null,
-    });
+  const [selectedSection, setSelectedSection] = useState('Personal Details');
+  const [resume, setResume] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [details, setDetails] = useState({
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    location: 'Springfield',
+    qualifications: 'B.Sc. Computer Science',
+    bio: 'Enthusiastic software developer with 5 years of experience...',
+    skills: 'JavaScript, React, Node.js, Python',
+  });
 
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
+  const handleSectionClick = (section) => {
+    setSelectedSection(section);
+  };
 
-    const handleChange = (event) => {
-        const { name, value, files } = event.target;
-        setProfile(prevProfile => ({
-            ...prevProfile,
-            [name]: files ? files[0] : value,
-        }));
-    };
+  const handleResumeUpload = (event) => {
+    setResume(event.target.files[0]);
+  };
 
-    const handleSkillChange = (event) => {
-        setProfile(prevProfile => ({
-            ...prevProfile,
-            skills: event.target.value.split(',').map(skill => skill.trim()).filter(skill => skill !== ""),
-        }));
-    };
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
 
-    const handleAddSkill = () => {
-        const skillInput = document.getElementById("skillsInput").value;
-        if (skillInput.trim() !== "") {
-            setProfile(prevProfile => ({
-                ...prevProfile,
-                skills: [...prevProfile.skills, skillInput.trim()],
-            }));
-            document.getElementById("skillsInput").value = "";
-        }
-    };
+  const handleSaveClick = () => {
+    setIsEditing(false);
+    // Save the updated details to your backend or state management here
+  };
 
-    const handleRemoveSkill = (skillToRemove) => {
-        setProfile(prevProfile => ({
-            ...prevProfile,
-            skills: prevProfile.skills.filter(skill => skill !== skillToRemove),
-        }));
-    };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
 
-    const validateForm = () => {
-        if (!profile.name.trim()) return "Name is required.";
-        if (!profile.email.trim()) return "Email is required.";
-        if (!/\S+@\S+\.\S+/.test(profile.email)) return "Email is invalid.";
-        if (profile.skills.length === 0) return "At least one skill is required.";
-        if (profile.bio.length > 500) return "Bio must be 500 characters or less.";
-        return "";
-    };
+  const applications = [
+    { id: 1, image: 'https://via.placeholder.com/150', company: 'Company A', position: 'Software Engineer', status: 'Under Review' },
+    { id: 2, image: 'https://via.placeholder.com/150', company: 'Company B', position: 'Product Manager', status: 'Accepted' },
+    { id: 3, image: 'https://via.placeholder.com/150', company: 'Company C', position: 'Data Analyst', status: 'Rejected' },
+    { id: 4, image: 'https://via.placeholder.com/150', company: 'Company D', position: 'UX Designer', status: 'Interview Scheduled' },
+    // Add more applications as needed
+  ];
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const validationError = validateForm();
-        if (validationError) {
-            setError(validationError);
-            setMessage("");
-        } else {
-            // Handle form submission, e.g., send data to the server
-            setMessage("Profile updated successfully!");
-            setError("");
-        }
-    };
+  const interviews = [
+    { id: 1, company: 'Company A', date: '2023-07-01', time: '10:00 AM' },
+    { id: 2, company: 'Company B', date: '2023-06-15', time: '2:00 PM' },
+    // Add more interviews as needed
+  ];
 
-    return (
-        <div className="container mt-5">
-            <h2 className="text-center mb-4">Profile</h2>
-            <form onSubmit={handleSubmit} className="profile-form">
-                <div className="form-group">
-                    <label htmlFor="profilePicture">Profile Picture</label>
-                    <input
-                        type="file"
-                        id="profilePicture"
-                        name="profilePicture"
-                        className="form-control-file"
-                        onChange={handleChange}
-                        accept="image/*"
-                    />
-                    {profile.profilePicture && (
-                        <img 
-                            src={URL.createObjectURL(profile.profilePicture)} 
-                            alt="Profile Preview" 
-                            className="img-thumbnail mt-2" 
-                            style={{ width: '150px', height: '150px' }}
+  const jobOffers = [
+    { id: 1, image: 'https://via.placeholder.com/150', company: 'Company A', position: 'Software Engineer', date: '2023-05-01' },
+    { id: 2, image: 'https://via.placeholder.com/150', company: 'Company B', position: 'Product Manager', date: '2023-04-15' },
+    // Add more job offers as needed
+  ];
+
+  return (
+    <div className="container-fluid profile-page">
+      <div className="row">
+        <aside className="col-md-3 col-lg-2 p-3 bg-light sidebar">
+          <ul className="nav flex-column">
+            <li className="nav-item">
+              <button className="nav-link active" onClick={() => handleSectionClick('Personal Details')}>
+                Personal Details
+              </button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link" onClick={() => handleSectionClick('Job Applications')}>
+                Job Applications
+              </button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link" onClick={() => handleSectionClick('Interviews')}>
+                Interviews
+              </button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link" onClick={() => handleSectionClick('Job Offers')}>
+                Job Offers
+              </button>
+            </li>
+          </ul>
+        </aside>
+        <div className="col-md-9 col-lg-10 content">
+          {selectedSection === 'Personal Details' && (
+            <div className="card mt-4">
+              <div className="card-body">
+                <h1 className="card-title">Personal Details</h1>
+                <div className="details-container mt-3">
+                  {isEditing ? (
+                    <form>
+                      <div className="form-group">
+                        <label>Name</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="name"
+                          value={details.name}
+                          onChange={handleChange}
                         />
-                    )}
+                      </div>
+                      <div className="form-group">
+                        <label>Email</label>
+                        <input
+                          type="email"
+                          className="form-control"
+                          name="email"
+                          value={details.email}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Location</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="location"
+                          value={details.location}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Qualifications</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="qualifications"
+                          value={details.qualifications}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Bio</label>
+                        <textarea
+                          className="form-control"
+                          name="bio"
+                          value={details.bio}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Skills</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="skills"
+                          value={details.skills}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Resume</label>
+                        <input type="file" accept=".doc,.docx" onChange={handleResumeUpload} className="form-control" />
+                        {resume && <span className="ml-2">{resume.name}</span>}
+                      </div>
+                      <button type="button" className="btn btn-primary" onClick={handleSaveClick}>
+                        Save
+                      </button>
+                    </form>
+                  ) : (
+                    <>
+                      <div className="detail-item mb-3">
+                        <span>Name: {details.name}</span>
+                      </div>
+                      <div className="detail-item mb-3">
+                        <span>Email: {details.email}</span>
+                      </div>
+                      <div className="detail-item mb-3">
+                        <span>Location: {details.location}</span>
+                      </div>
+                      <div className="detail-item mb-3">
+                        <span>Qualifications: {details.qualifications}</span>
+                      </div>
+                      <div className="detail-item mb-3">
+                        <span>Bio: {details.bio}</span>
+                      </div>
+                      <div className="detail-item mb-3">
+                        <span>Skills: {details.skills}</span>
+                      </div>
+                      <div className="detail-item">
+                        <span>Resume:</span>
+                        {resume && <span className="ml-2">{resume.name}</span>}
+                      </div>
+                      <div className="mt-3">
+                        <button className="btn btn-outline-primary" onClick={handleEditClick}>Edit All Details</button>
+                      </div>
+                    </>
+                  )}
                 </div>
-                <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        className="form-control"
-                        value={profile.name}
-                        onChange={handleChange}
-                        placeholder="Enter your name"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="form-control"
-                        value={profile.email}
-                        onChange={handleChange}
-                        placeholder="Enter your email"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="skills">Skills</label>
-                    <input
-                        type="text"
-                        id="skillsInput"
-                        className="form-control"
-                        placeholder="Add skill (comma-separated)"
-                        onChange={handleSkillChange}
-                    />
-                    
-                    <div className="mt-2">
-                        {profile.skills.map(skill => (
-                            <span 
-                                key={skill} 
-                                className="badge bg-primary me-2 mb-2"
-                            >
-                               
-                            </span>
-                        ))}
+              </div>
+            </div>
+          )}
+          {selectedSection === 'Job Applications' && (
+            <div className="card mt-4">
+              <div className="card-body">
+                <h1 className="card-title">Job Applications</h1>
+                <div className="applications-container mt-3">
+                  {applications.map(application => (
+                    <div className="application-card card mb-3" key={application.id}>
+                      <div className="row no-gutters">
+                        <div className="col-md-2">
+                          <img src={application.image} alt={application.company} className="card-img" />
+                        </div>
+                        <div className="col-md-10">
+                          <div className="card-body">
+                            <h5 className="card-title">{application.company}</h5>
+                            <p className="card-text">{application.position}</p>
+                            <p className="card-text"><small className="text-muted">{application.status}</small></p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                  ))}
                 </div>
-                <div className="form-group">
-                    <label htmlFor="bio">Bio</label>
-                    <textarea
-                        id="bio"
-                        name="bio"
-                        className="form-control"
-                        value={profile.bio}
-                        onChange={handleChange}
-                        placeholder="Enter your bio"
-                        maxLength="500"
-                    ></textarea>
-                    <small className="form-text text-muted">
-                        {profile.bio.length}/500 characters
-                    </small>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="qualification">Qualification</label>
-                    <input
-                        type="text"
-                        id="qualification"
-                        name="qualification"
-                        className="form-control"
-                        value={profile.qualification}
-                        onChange={handleChange}
-                        placeholder="Enter your qualification"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="resume">Resume</label>
-                    <input
-                        type="file"
-                        id="resume"
-                        name="resume"
-                        className="form-control-file"
-                        onChange={handleChange}
-                        accept=".pdf,.doc,.docx"
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">Update Profile</button>
-                {message && (
-                    <div className="alert alert-success mt-3">
-                        {message}
+              </div>
+            </div>
+          )}
+          {selectedSection === 'Interviews' && (
+            <div className="card mt-4">
+              <div className="card-body">
+                <h1 className="card-title">Interviews</h1>
+                <div className="interviews-container mt-3">
+                  {interviews.map(interview => (
+                    <div className="interview-card card mb-3" key={interview.id}>
+                      <div className="card-body">
+                        <h5 className="card-title">{interview.company}</h5>
+                        <p className="card-text">{interview.date} at {interview.time}</p>
+                      </div>
                     </div>
-                )}
-                {error && (
-                    <div className="alert alert-Failure mt-3">
-                        {error}
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+          {selectedSection === 'Job Offers' && (
+            <div className="card mt-4">
+              <div className="card-body">
+                <h1 className="card-title">Job Offers</h1>
+                <div className="job-offers-container mt-3">
+                  {jobOffers.map(offer => (
+                    <div className="job-offer-card card mb-3" key={offer.id}>
+                      <div className="row no-gutters">
+                        <div className="col-md-2">
+                          <img src={offer.image} alt={offer.company} className="card-img" />
+                        </div>
+                        <div className="col-md-10">
+                          <div className="card-body">
+                            <h5 className="card-title">{offer.company}</h5>
+                            <p className="card-text">{offer.position}</p>
+                            <p className="card-text"><small className="text-muted">{offer.date}</small></p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                )}
-            </form>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default Profile;

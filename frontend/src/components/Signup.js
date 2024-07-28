@@ -16,7 +16,12 @@ function Signup() {
       return;
     }
 
+    const users = JSON.parse(localStorage.getItem('users')) || [];
     const newUser = { email, password };
+    
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+
     console.log('Signup successful!', newUser);
 
     // Redirect to login page after successful signup
