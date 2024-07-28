@@ -1,18 +1,20 @@
-/* Profile form styling */
-.profile-form {
-    max-width: 600px;
-    margin: auto;
-}
-
-/* File input styling */
-.form-control-file {
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    padding: 0.375rem 0.75rem;
-}
-
-/* Profile picture preview */
-.img-thumbnail {
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
-}
+#sidebar {
+    background-color: #343a40; /* Dark color */
+    height: 100vh;
+    padding-top: 20px;
+  }
+  
+  #main-content {
+    padding: 20px;
+  }
+  
+  #sidebar .nav-link {
+    color: #fff; /* Light text color for contrast */
+    margin-bottom: 10px;
+  }
+  
+  #sidebar .nav-link:hover {
+    background-color: #495057; /* Slightly lighter dark color for hover effect */
+    color: #fff;
+  }
+  
